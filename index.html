@@ -1,0 +1,73 @@
+
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<div id="input">
+<select id="fu"></select>符
+<select id="han"></select>飜
+<input id="home" type="checkbox"/>親
+<input id="tsumo" type="checkbox"/>ツモ
+</div>
+<div id="output"></div>
+<script>
+    $('<option>',{
+        value: 20,
+        text: 20
+    }).appendTo('#fu');
+    $('<option>',{
+        value: 25,
+        text: 25
+    }).appendTo('#fu');
+    for (i = 30; i <= 110; i += 10)
+    {
+        $('<option>',{
+            value: i,
+            text: i
+        }).appendTo('#fu');
+    }
+    for (i = 1; i <= 13; i += 1)
+    {
+        $('<option>',{
+            value: i,
+            text: i
+        }).appendTo('#han');
+    }
+    function RoundUp(i)
+    {
+        return (Math.ceil(i/100)*100).toString();
+    }
+    $('#input').children().on("change",function(){
+        fu = parseInt($('#fu').val());
+        han = parseInt($('#han').val());
+        
+        basic = $('#fu').val() * Math.pow(2, han+2);
+        if (basic>=2000)
+        {
+            if (han<=5)
+                basic=2000;
+            else if (han <= 7)
+                basic=3000;
+            else if (han <= 10)
+                basic=4000;
+            else if (han <= 12)
+                basic=6000;
+            else
+                basic=8000;
+        }
+        home = $('#home').prop("checked");
+        if ($('#tsumo').prop("checked"))
+        {
+            if (home)
+                result = RoundUp(basic*2)+" オール";
+            else
+                result = RoundUp(basic*1)+" - "+RoundUp(basic*2);
+        }else
+        {
+            if (home)
+                result = RoundUp(basic*6);
+            else
+                result = RoundUp(basic*4);
+        }
+        $('#output').html(result);
+        
+    });
+</script>
